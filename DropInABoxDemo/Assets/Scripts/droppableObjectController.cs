@@ -2,36 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class droppableObject : MonoBehaviour {
+public class droppableObjectController : MonoBehaviour {
 
     #region properties
 
     /// <summary>
     /// True if the object is near the player 
     /// </summary>
-    [SerializeField]
     bool grabbable = false;
 
     /// <summary>
     /// True if the object is grabbed by the player
     /// </summary>
-    ///     [SerializeField]
     bool grabbed = false;
 
+    /// <summary>
+    /// The object type determines the color and the scoring value of each object
+    /// </summary>
     [SerializeField]
-    float floatHeight = 1f;
+    int objectType = 0;
 
     /// <summary>
-    /// Il player che afferra l'oggetto
+    /// The player
     /// </summary>
-    private GameObject player;
+    GameObject player ;
 
     #endregion
 
-
-
     #region Unity Methods
-
+    void Awake()
+    {
+        player = GameObject.FindWithTag("Player");
+    }
     // Use this for initialization
     void Start () {
 
@@ -55,9 +57,17 @@ public class droppableObject : MonoBehaviour {
         //let the object follow the player
         if (grabbed)
         {
-            Vector3 toPlayer = player.transform.position + new Vector3(0f,2f,0f) - transform.position;
-            float speed = 4f;
-            transform.Translate(toPlayer * speed * Time.deltaTime);
+            Vector3 toPlayer = player.transform.position + new Vector3(0f, 2.2f, 0f); 
+            transform.position=(toPlayer );
+            gameObject.GetComponent<Rigidbody>().isKinematic = true;            
+        }
+        if (!grabbed)
+        {
+            gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            if(gameObject.transform.position.y < 1 )
+            {
+                gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up * 11.0f);
+            }
         }
     }
 
@@ -65,8 +75,7 @@ public class droppableObject : MonoBehaviour {
     {
         if (other.gameObject.tag == "Player")
         {        
-            grabbable = true;
-            player = other.gameObject;
+            grabbable = true;            
         }
     }
 
@@ -75,10 +84,7 @@ public class droppableObject : MonoBehaviour {
         if (other.gameObject.tag == "Player")
         {
             grabbable = false;
-        }
-
-        if (!grabbed)
-            player = null;
+        }            
     }
 
     #endregion
@@ -86,19 +92,12 @@ public class droppableObject : MonoBehaviour {
 
     #region Custom Methods
     /// <summary>
-    /// Richiamato quando afferro un oggetto
+    /// Set the object "type";
     /// </summary>
-    public void Grab()
+    /// <param name="objectType"></param>
+    public void setType(int oType)
     {
-
-    }
-    
-    /// <summary>
-    /// Metodo richiamato quando rilascio un oggetto
-    /// </summary>
-    public void Drop()
-    {
-
+        this.objectType = oType;
     }
     #endregion
 
