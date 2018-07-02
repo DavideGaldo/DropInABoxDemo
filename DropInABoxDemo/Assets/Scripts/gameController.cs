@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
@@ -20,6 +21,20 @@ public class GameController : MonoBehaviour {
     public int objectTypesNumber = 8;
     private int instantiatedTypes = 0;
 
+    public int PlayerHealthPenality = 1;
+    private float remainingTimePlayerDamaging = 1;
+
+    private GameObject player;
+
+
+    public Text healthText;
+    public Text gameOverText;
+    public Text scoreText;
+
+
+    private bool playerIsDeath = false;
+
+
 
     
 
@@ -29,42 +44,78 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        if(dropBoxesPrefab.Length!= droppableObjectsPrefab.Length)
+
+        player = GameObject.FindWithTag("Player");
+        gameOverText.enabled = false;
+        scoreText.enabled = false;
+
+
+
+        if (dropBoxesPrefab.Length!= droppableObjectsPrefab.Length)
         {
             Debug.LogError("Error! DropBox types aren't equal to Droppable Object types !");
         }        
 
         remainingTimeForlevelUp = levelUpTimer;
         remainingTimeForDroppableObjectSpanw = droppableObjectSpawnTimer;
+
+
+
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        timer += Time.deltaTime;
-
-        remainingTimeForlevelUp -= Time.deltaTime;
-        if (remainingTimeForlevelUp <= 0)
+        if (!playerIsDeath)
         {
-            remainingTimeForlevelUp = levelUpTimer;
-            if (instantiatedTypes < objectTypesNumber -1)
+            timer += Time.deltaTime;
+
+            #region Leveling Logic
+            remainingTimeForlevelUp -= Time.deltaTime;
+            if (remainingTimeForlevelUp <= 0)
             {
-                instantiatedTypes++;
-                //spawn new DropBox
-                SpawnDropBox(instantiatedTypes);
+                remainingTimeForlevelUp = levelUpTimer;
+                PlayerHealthPenality += 2;
+                if (instantiatedTypes < objectTypesNumber - 1)
+                {
+                    instantiatedTypes++;
+                    //spawn new DropBox
+                    SpawnDropBox(instantiatedTypes);
+                }
+            }
+
+            remainingTimeForDroppableObjectSpanw -= Time.deltaTime;
+            if (remainingTimeForDroppableObjectSpanw <= 0)
+            {
+                remainingTimeForDroppableObjectSpanw = droppableObjectSpawnTimer;
+                int spawType = Mathf.RoundToInt(Random.Range(0.0f, instantiatedTypes));
+                SpawnDroppableObject(spawType);
+            }
+            #endregion
+
+            #region Player Health Penality
+            remainingTimePlayerDamaging -= Time.deltaTime;
+            if (remainingTimePlayerDamaging <= 0)
+            {
+                remainingTimePlayerDamaging = 1;
+                player.GetComponent<PlayerStats>().TakeDamage(PlayerHealthPenality);
+            }
+
+            #endregion
+            int currentPlayerHealth = player.GetComponent<PlayerStats>().GetHealth(); ;
+            if (currentPlayerHealth > 0)
+            {
+                healthText.text = "Health: " + currentPlayerHealth;
             }
         }
 
-        remainingTimeForDroppableObjectSpanw -= Time.deltaTime;
-        if(remainingTimeForDroppableObjectSpanw <= 0)
-        {
-            remainingTimeForDroppableObjectSpanw = droppableObjectSpawnTimer;
-            int spawType = Mathf.RoundToInt(Random.Range(0.0f, instantiatedTypes));
-            SpawnDroppableObject(spawType);
-        }
+        
+        
 
 
-	}
+
+    }
 
     void SpawnDroppableObject(int type)
     {
@@ -83,5 +134,16 @@ public class GameController : MonoBehaviour {
             instantiatedBoxes[type] = true;
         }
             
+    }
+
+
+    public void GameOver()
+    {
+        playerIsDeath = true;
+        float score = timer;
+        scoreText.text = "You survived for: " + score + "seconds";
+        gameOverText.enabled = true;
+        scoreText.enabled = true;
+        
     }
 }

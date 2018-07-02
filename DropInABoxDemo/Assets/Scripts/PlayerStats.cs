@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour {
 
+    GameController gc;
+
+
     #region Singleton
     public static PlayerStats instance;
 
@@ -20,6 +23,7 @@ public class PlayerStats : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        gc = GameObject.FindWithTag("GameController").GetComponent<GameController>() ;
         currentHealth = maxHealth;
 	}
 	
@@ -44,8 +48,22 @@ public class PlayerStats : MonoBehaviour {
         currentHealth += healthModifier;
     }
 
+    public int GetHealth()
+    {
+        return currentHealth;
+    }
+
+
+    public bool IsAlive()
+    {
+        if (currentHealth > 0)
+            return true;
+        else
+            return false;
+    }
+
     private void Death()
     {
-        print("You're dead.");
+        gc.GameOver();
     }
 }

@@ -64,12 +64,12 @@ public class DroppableObject : MonoBehaviour {
         //If the object has not been dropped in the box
         if(!dropped)
         {
-            if (grabbable && Input.GetKeyDown(KeyCode.G))
+            if (grabbable && Input.GetKeyDown(KeyCode.G) && player.GetComponent<PlayerStats>().IsAlive())
             {
                 grabbed = true;
             }
 
-            if (grabbed && Input.GetKeyDown(KeyCode.R))
+            if (grabbed && Input.GetKeyDown(KeyCode.R) && player.GetComponent<PlayerStats>().IsAlive())
             {
                 grabbed = false;
             }
@@ -174,6 +174,7 @@ public class DroppableObject : MonoBehaviour {
         dropped = true;     //The object has been dropped
         grabbable = false;  //The user can't grab this object anymore
         player.GetComponent<PlayerStats>().ModifyHealth(healthModifier);
+        print(player.GetComponent<PlayerStats>().GetHealth());
     }
 
     public bool IsDropped()
