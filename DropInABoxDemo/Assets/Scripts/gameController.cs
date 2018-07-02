@@ -69,7 +69,7 @@ public class GameController : MonoBehaviour {
 
         if (!playerIsDeath)
         {
-            timer += Time.deltaTime;
+            //timer += Time.deltaTime;
 
             #region Leveling Logic
             remainingTimeForlevelUp -= Time.deltaTime;
@@ -117,10 +117,18 @@ public class GameController : MonoBehaviour {
 
     }
 
+    void FixedUpdate()
+    {
+        if (!playerIsDeath)
+        {
+            timer += Time.deltaTime;
+        }
+    }
+
     void SpawnDroppableObject(int type)
     {
         Rigidbody droppableObjInstance;
-        Vector3 randPos = new Vector3(Random.Range(-10.0f, 10.0f), 5.0f, Random.Range(-10.0f, 10.0f));
+        Vector3 randPos = new Vector3(Random.Range(-13.0f, 13.0f), 0.0f, Random.Range(-13.0f, 13.0f));
         droppableObjInstance= Instantiate(droppableObjectsPrefab[type], spawner.position + randPos, spawner.rotation) as Rigidbody;
     }
 
@@ -129,7 +137,7 @@ public class GameController : MonoBehaviour {
         if (!instantiatedBoxes[type])
         {
             Rigidbody dropBoxInstance;
-            Vector3 randPos = new Vector3(Random.Range(-10.0f, 10.0f), 5.0f, Random.Range(-10.0f, 10.0f));
+            Vector3 randPos = new Vector3(Random.Range(-12.0f, 12.0f), 0.0f, Random.Range(-12.0f, 12.0f));
             dropBoxInstance = Instantiate(dropBoxesPrefab[type], spawner.position+randPos, spawner.rotation ) as Rigidbody;
             instantiatedBoxes[type] = true;
         }

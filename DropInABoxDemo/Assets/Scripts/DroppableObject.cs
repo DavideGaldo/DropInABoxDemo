@@ -173,8 +173,7 @@ public class DroppableObject : MonoBehaviour {
     {
         dropped = true;     //The object has been dropped
         grabbable = false;  //The user can't grab this object anymore
-        player.GetComponent<PlayerStats>().ModifyHealth(healthModifier);
-        print(player.GetComponent<PlayerStats>().GetHealth());
+        player.GetComponent<PlayerStats>().ModifyHealth(healthModifier);        
     }
 
     public bool IsDropped()
