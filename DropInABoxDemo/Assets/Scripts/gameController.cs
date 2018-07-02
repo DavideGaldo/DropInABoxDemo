@@ -84,7 +84,9 @@ public class GameController : MonoBehaviour {
                     SpawnDropBox(instantiatedTypes);
                 }
             }
+            #endregion
 
+            #region Droppable Object Spawning
             remainingTimeForDroppableObjectSpanw -= Time.deltaTime;
             if (remainingTimeForDroppableObjectSpanw <= 0)
             {
@@ -95,6 +97,7 @@ public class GameController : MonoBehaviour {
             #endregion
 
             #region Player Health Penality
+
             remainingTimePlayerDamaging -= Time.deltaTime;
             if (remainingTimePlayerDamaging <= 0)
             {
@@ -103,11 +106,10 @@ public class GameController : MonoBehaviour {
             }
 
             #endregion
-            int currentPlayerHealth = player.GetComponent<PlayerStats>().GetHealth(); ;
-            if (currentPlayerHealth > 0)
-            {
-                healthText.text = "Health: " + currentPlayerHealth;
-            }
+
+            UpdateUI();
+
+
         }
 
         
@@ -144,6 +146,14 @@ public class GameController : MonoBehaviour {
             
     }
 
+    void UpdateUI()
+    {
+        int currentPlayerHealth = player.GetComponent<PlayerStats>().GetHealth(); ;
+        if (currentPlayerHealth > 0)
+        {
+            healthText.text = "Health: " + currentPlayerHealth;
+        }
+    }
 
     public void GameOver()
     {

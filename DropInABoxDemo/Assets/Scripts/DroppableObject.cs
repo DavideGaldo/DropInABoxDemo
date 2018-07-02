@@ -54,6 +54,7 @@ public class DroppableObject : MonoBehaviour {
         
     }
     // Use this for initialization
+
     void Start () {
         player = GameObject.FindWithTag("Player");
     }
@@ -109,6 +110,7 @@ public class DroppableObject : MonoBehaviour {
                         Vector3 pos = dropBox.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
                         transform.position=pos;
                     }else if(dropBox != null && dropBox.GetComponent<DropBox>().GetBoxType() != objectType){
+                        
                         //randomly trow away the object
                         gameObject.GetComponent<Rigidbody>().isKinematic = false;
                         Vector3 randPos = new Vector3(Random.Range(-30.0f, 30.0f), Random.Range(20.0f, 40.0f), Random.Range(-30.0f, 30.0f));
@@ -152,6 +154,7 @@ public class DroppableObject : MonoBehaviour {
 
 
     #region Custom Methods
+
     /// <summary>
     /// Set the object "type";
     /// </summary>
