@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 23133490710387512}
   - component: {fileID: 114174299681588906}
   m_Layer: 0
-  m_Name: DroppableObject
+  m_Name: DroppableObject_Type07
   m_TagString: DroppableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: b5eb8594046918a46b5bf3f74dac78c6, type: 2}
+  - {fileID: 2100000, guid: c909664f5deaef94f97ee276513967ba, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -124,7 +124,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b3acbba574f9844ca969654ca4df9ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectType: 0
+  objectType: 7
+  healthModifier: 40
 --- !u!135 &135516809613664564
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class dropBoxController : MonoBehaviour {
+public class DropBox : MonoBehaviour {
 
 
     #region properties

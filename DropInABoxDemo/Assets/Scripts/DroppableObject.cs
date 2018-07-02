@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class droppableObjectController : MonoBehaviour {
+public class DroppableObject : MonoBehaviour {
 
     #region properties
 
@@ -33,6 +33,9 @@ public class droppableObjectController : MonoBehaviour {
     [SerializeField]
     int objectType = 0;
 
+    [SerializeField]
+    int healthModifier = 10;
+
     /// <summary>
     /// The player
     /// </summary>
@@ -48,12 +51,12 @@ public class droppableObjectController : MonoBehaviour {
     #region Unity Methods
     void Awake()
     {
-        player = GameObject.FindWithTag("Player");
+        
     }
     // Use this for initialization
     void Start () {
-
-	}
+        player = GameObject.FindWithTag("Player");
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -99,14 +102,13 @@ public class droppableObjectController : MonoBehaviour {
                 else
                 {
                     //The box can accept this kind of object
-                    if (dropBox != null && dropBox.GetComponent<dropBoxController>().GetBoxType() == objectType )
+                    if (dropBox != null && dropBox.GetComponent<DropBox>().GetBoxType() == objectType )
                     {
                         gameObject.GetComponent<Rigidbody>().isKinematic = false;
-                        dropped = true;     //The object has been dropped
-                        grabbable = false;  //The user can't grab this object anymore
+                        Drop();
                         Vector3 pos = dropBox.transform.position + new Vector3(0.0f, 1.0f, 0.0f);
                         transform.position=pos;
-                    }else if(dropBox != null && dropBox.GetComponent<dropBoxController>().GetBoxType() != objectType){
+                    }else if(dropBox != null && dropBox.GetComponent<DropBox>().GetBoxType() != objectType){
                         //randomly trow away the object
                         gameObject.GetComponent<Rigidbody>().isKinematic = false;
                         Vector3 randPos = new Vector3(Random.Range(-30.0f, 30.0f), Random.Range(20.0f, 40.0f), Random.Range(-30.0f, 30.0f));
@@ -169,9 +171,9 @@ public class droppableObjectController : MonoBehaviour {
 
     public void Drop()
     {
-        dropped = true;
-        //TODO
-        //Insert the gameController reference to the dropped item
+        dropped = true;     //The object has been dropped
+        grabbable = false;  //The user can't grab this object anymore
+        player.GetComponent<PlayerStats>().ModifyHealth(healthModifier);
     }
 
     public bool IsDropped()

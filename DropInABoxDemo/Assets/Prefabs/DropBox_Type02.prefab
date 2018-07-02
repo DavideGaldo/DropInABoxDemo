@@ -30,7 +30,7 @@ GameObject:
   - component: {fileID: 65559410526351838}
   - component: {fileID: 114741163434940900}
   m_Layer: 0
-  m_Name: DropBox
+  m_Name: DropBox_Type02
   m_TagString: DropBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: b5eb8594046918a46b5bf3f74dac78c6, type: 2}
+  - {fileID: 2100000, guid: 465c8417da20c5a4e9a2f96e3e3e7989, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f5905dd2a9482e4db00672eb117d93f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectType: 1
+  objectType: 2
 --- !u!135 &135143047733035286
 SphereCollider:
   m_ObjectHideFlags: 1
